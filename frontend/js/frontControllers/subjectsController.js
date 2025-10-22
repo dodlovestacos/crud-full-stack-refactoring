@@ -113,6 +113,7 @@ async function loadSubjects()
     }
 }
 
+
 function renderSubjectTable(subjects)
 {
     const tbody = document.getElementById('subjectTableBody');

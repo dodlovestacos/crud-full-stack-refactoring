@@ -122,6 +122,8 @@ async function loadStudents()
         console.error('Error cargando estudiantes:', err.message);
     }
 }
+
+
   
 function renderStudentTable(students)
 {
