@@ -6,15 +6,38 @@
 *    License     : http://www.gnu.org/licenses/gpl.txt  GNU GPL 3.0
 *    Date        : Mayo 2025
 *    Status      : Prototype
-*    Iteration   : 3.0 ( prototype )
+*    Iteration   : 1.0 ( prototype )
 */
 
 require_once("./repositories/studentsSubjects.php");
 
 function handleGet($conn) 
 {
-    $studentsSubjects = getAllSubjectsStudents($conn);
-    echo json_encode($studentsSubjects);
+   if (isset($_GET['id'])) 
+    {
+        $studentsSubjects = getAllSubjectsStudents($conn);
+        echo json_encode($studentsSubjects);
+    }
+        //2.1
+    else if (isset($_GET['page']) && isset($_GET['limit'])) 
+    {
+        $page = (int)$_GET['page'];
+        $limit = (int)$_GET['limit'];
+        $offset = ($page - 1) * $limit;
+
+        $studentsSubjects = getPaginatedStudentsSubjects($conn, $limit, $offset);
+        $total = getTotalStudentsSubjects($conn);
+
+        echo json_encode([
+            'students_subjects' => $studentsSubjects, // ya es array
+            'total' => $total        // ya es entero
+        ]);
+    }
+    else
+    {
+        $studentsSubjects = getAllStudentSubjects($conn); // ya es array
+        echo json_encode($studentsSubjects);
+    }
 }
 
 function handlePost($conn) 
